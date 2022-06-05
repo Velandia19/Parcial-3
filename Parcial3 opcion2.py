@@ -3,6 +3,27 @@
 import sqlite3
 from math import e
 
+#Se le asigna variables a las respuestas y preguntas que tendra el programa
+mensaje="MENSAJE: Debe ingresar un valor entero positivo."
+mensaje_1="MENSAJE: Debe ingreser un valor entero."
+mensaje_2="MENSAJE: Debe ingresar una cadena con un valor específico para el nombre."
+mensaje_3="Se ha producido un error al crear la conexión:"
+respuesta="Ingrese la cantidad de moscas: "
+respuesta_1="dato no valido"
+respuesta_2="SE HA CREADO UNA BASE DE DATOS NUEVA"
+respuesta_3="LA BASE DE DATOS YA EXISTE, TENGA ENCUENTA QUE SE TRABAJARA CON LOS DATOS QUE INGRESES MAS LOS EXISTENTES EN LA BASE DE DATOS"
+respuesta_4= "TABLA #2"
+respuesta_5="TABLA #1"
+respuesta_6="opcion no valida"
+pregunta="Ingrese el nombre de la planta: "
+pregunta_1="ingrese el nombre de la planta que quiere modificar el numero de moscas: "
+pregunta_2="ingrese el nuevo numero de moscas: "
+pregunta_3="ingrese el nombre de la planta que quiere modificar el numero de plantas: "
+pregunta_4="ingrese el nuevo numero de plantas: "
+pregunta_5="digite el nombre de la base de datos: "
+pregunta_6="ingrese la cantidad de datos que desee: "
+pregunta_7="ingrese el nombre de la planta que quiere borrar: "
+
 #se nombra contadores y variables de cadena 
 conexion = 0
 nuevonombre=""
@@ -14,7 +35,7 @@ def crear_conexion(base_datos): #el parametro recibido es el nombre  de la base 
 
         return conexion # se retorna la conexion 
     except sqlite3.Error as error: # se implementa una excepcion por si el bloque try lanza un error 
-        print('Se ha producido un error al crear la conexión:', error)
+        print(mensaje_3, error)
 # en las siguiente 3 funciones se crean las tablas contenidas en la bases de datos   
 def crear_tabla(conexion, definicion):# en esta parte se recibe la conexion y la definicion que es el parametro del lenguaje sql creando la tabla 
     cursor = conexion.cursor()#se conecta a la base de datos y crea un cursor  
@@ -96,24 +117,24 @@ def solicitar_datos_usuario():
     while True:
         
         try:
-            nmoscas = int(input('Ingrese la cantidad de moscas: '))
+            nmoscas = int(input(respuesta))
 
             if nmoscas > 0:
                 break
             else:
-                print('MENSAJE: Debe ingresar un valor entero positivo.')
+                print(mensaje)
         except ValueError:
-            print('MENSAJE: Debe ingreser un valor entero.')
+            print(mensaje_1)
 
         print()
       
     while True:
-        nplanta = input('Ingrese el nombre de la planta: ').strip()
+        nplanta = input(pregunta).strip()
 
         if len(nplanta):
             break
         else:
-            print('MENSAJE: Debe ingresar una cadena con un valor específico para el nombre.')
+            print(mensaje_2)
         
         print()
 
@@ -135,9 +156,9 @@ def solicitar_datos_usuario2(pos):
             if nuplantas > 0:
                 break
             else:
-                print('MENSAJE: Debe ingresar un valor entero positivo.')
+                print(mensaje)
         except ValueError:
-            print('MENSAJE: Debe ingreser un valor entero.')
+            print(mensaje_1)
 
         print()
       
@@ -201,9 +222,6 @@ def promedio(conexion):
     return resultado
 
 
-    
-
-   
 
 #en las dos siguientes funciones sirven para cambiar datos que estan en las tablas usuario y usuario 2
 
@@ -219,16 +237,16 @@ def actualizar_usuario(conexion, usuario):
     while bandera:
         try:
             #se pide el nombre de la planta para cambiar el numero de moscas 
-         entrada =  input("ingrese el nombre de la planta que quiere modificar el numero de moscas: ")
+         entrada =  input(pregunta_1)
          nuevonombre = entrada
 
-         entrada2 =  int(input("ingrese el nuevo numero de moscas: "))
+         entrada2 =  int(input(pregunta_2))
          nuevovalor2 = entrada2
          bandera = False
          break
 
         except:
-            print("dato no valido")
+            print(respuesta_1)
 
     
     cursor = conexion.cursor()
@@ -243,16 +261,16 @@ def actualizar_usuario2(conexion, usuario2):
     nuevovalor2=0
     while bandera:
         try:
-         entrada =  input("ingrese el nombre de la planta que quiere modificar el numero de plantas: ")
+         entrada =  input(pregunta_3)
          nuevonombre = entrada
 
-         entrada2 =  int(input("ingrese el nuevo numero de plantas: "))
+         entrada2 =  int(input(pregunta_4))
          nuevovalor2 = entrada2
          bandera = False
          break
 
         except:
-            print("dato no valido")
+            print(respuesta_1)
 
     
     cursor = conexion.cursor()
@@ -291,7 +309,7 @@ def moscas10t ():
 
 #la siguiente funcion es el proceso central de algoritmo al definir la creacion de tablas 
 def main():
-    a= input("digite el nombre de la base de datos: ")#se da el nombre de la base de datos 
+    a= input(pregunta_5)#se da el nombre de la base de datos 
     conexion = crear_conexion(a) #se crea la conexion a la base de datos 
    
 
@@ -322,22 +340,22 @@ def main():
         crear_tabla(conexion, sql)#se define el parametro del lenguaje sql donde esta la creacion de la tabla
         crear_tabla2(conexion, sql2)#se llama la funcion y se ejecuta el codigo que genera la tabla
         crear_tabla3(conexion, sql3) #se llama la funcion que crea la tabla 3
-        print("SE HA CREADO UNA BASE DE DATOS NUEVA".center(50,"*"))
+        print(respuesta_2.center(50,"*"))
     except: #Como trabajamos con una estructura de base de datos fija, para saber si una base de datos existe podemos preguntar si las tablas ya están creadas
         #aprovechando la exepción que lanza cuando las tablas ya están creadas.
-        print("LA BASE DE DATOS YA EXISTE, TENGA ENCUENTA QUE SE TRABAJARA CON LOS DATOS QUE INGRESES MAS LOS EXISTENTES EN LA BASE DE DATOS".center(50,"*"))
+        print(respuesta_3.center(50,"*"))
         nuevabd =False
         dato1Verificacion = mostrar_usuarios(conexion)
     # aqui se hace la primer tabla que tendra los datos usados por el usuario 
    
-    print("TABLA #1".center(60,"+"))#metodo estetico
-    entrada = int(input("ingrese la cantidad de datos que desee: "))#se ingre la cantidad de elementos que tendra la tabla
+    print(respuesta_5.center(60,"+"))#metodo estetico
+    entrada = int(input(pregunta_6))#se ingre la cantidad de elementos que tendra la tabla
     for i in range(0,entrada):#se piden la cantidad de elementos requeridos 
         print("dato numero {}\n".format(i+1))#se muestra la posicion del dato
         usuario = solicitar_datos_usuario()#se llama la funcion que tiene los datos escritos por el usuari
         crear_usuario(conexion, usuario) #se crea la conexion a la base de datos
 
-    print("TABLA #2".center(60,"+"))#metodo estetico
+    print(respuesta_4.center(60,"+"))#metodo estetico
     
     for i in range(0,entrada):#segun la cantidad de datos antes requerido se ejecuta
         if nuevabd: #Si es una nueva base de datos que llene la tabla desde el inicio
@@ -362,6 +380,7 @@ def main():
 
 
 
+
     
     menu(usuario)
     if conexion:
@@ -377,7 +396,7 @@ def eliminar_usuario(conexion):
     
     while bandera:
         try:
-         entrada5 =  input("ingrese el nombre de la planta que quiere borrar: ")
+         entrada5 =  input(pregunta_7)
          nuevonombre = entrada5
 
          
@@ -385,7 +404,7 @@ def eliminar_usuario(conexion):
          break
 
         except:
-            print("dato no valido")
+            print(respuesta_1)
 
     
     cursor = conexion.cursor()
@@ -434,7 +453,7 @@ def menu (us):
             bandera = False
             break 
         else:
-            print("opcion no valida")
+            print(respuesta_6)
         
 
 
